@@ -1,0 +1,175 @@
+<?xml version="1.0"?>
+<robot name="2link_robot_3d" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <!-- Material definitions -->
+  <material name="black">
+    <color rgba="0 0 0 0.8"/>
+  </material>
+  <material name="white">
+    <color rgba="1 1 1 0.8"/>
+  </material>
+  <material name="red">
+    <color rgba="1 0 0 0.8"/>
+  </material>
+  <material name="blue">
+    <color rgba="0 0 1 0.8"/>
+  </material>
+
+  <!-- Base link -->
+  <link name="base_link">
+    <visual>
+      <geometry>
+        <box size="0.2 0.2 0.1"/>
+      </geometry>
+      <origin xyz="0 0 0.05" rpy="0 0 0"/>
+      <material name="blue"/>
+    </visual>
+    <collision>
+      <geometry>
+        <box size="0.2 0.2 0.1"/>
+      </geometry>
+      <origin xyz="0 0 0.05" rpy="0 0 0"/>
+    </collision>
+    <inertial>
+      <mass value="1.0"/>
+      <origin xyz="0 0 0.05" rpy="0 0 0"/>
+      <inertia ixx="0.01" ixy="0.0" ixz="0.0"
+               iyy="0.01" iyz="0.0"
+               izz="0.01"/>
+    </inertial>
+  </link>
+
+  <!-- First joint: yaw (base rotation) -->
+  <joint name="base_yaw_joint" type="continuous">
+    <parent link="base_link"/>
+    <child link="arm1_pitch_link"/>
+    <origin rpy="0 0 0" xyz="0 0 0.1"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="100" velocity="1.0"/>
+    <dynamics damping="0.1" friction="0.1"/>
+  </joint>
+
+  <!-- Intermediate link for pitch joint -->
+  <link name="arm1_pitch_link">
+    <visual>
+      <geometry>
+        <cylinder radius="0.05" length="0.1"/>
+      </geometry>
+      <origin xyz="0 0 0.05" rpy="0 0 0"/>
+      <material name="red"/>
+    </visual>
+    <collision>
+      <geometry>
+        <cylinder radius="0.05" length="0.1"/>
+      </geometry>
+      <origin xyz="0 0 0.05" rpy="0 0 0"/>
+    </collision>
+    <inertial>
+      <mass value="0.5"/>
+      <origin xyz="0 0 0.05" rpy="0 0 0"/>
+      <inertia ixx="0.005" ixy="0.0" ixz="0.0"
+               iyy="0.005" iyz="0.0"
+               izz="0.005"/>
+    </inertial>
+  </link>
+
+  <!-- Second joint: pitch (shoulder) -->
+  <joint name="shoulder_pitch_joint" type="continuous">
+    <parent link="arm1_pitch_link"/>
+    <child link="arm1"/>
+    <origin rpy="0 0 0" xyz="0 0 0.1"/>
+    <axis xyz="0 1 0"/>
+    <limit effort="100" velocity="1.0"/>
+    <dynamics damping="0.1" friction="0.1"/>
+  </joint>
+
+  <!-- First arm link -->
+  <link name="arm1">
+    <visual>
+      <geometry>
+        <box size="0.05 0.05 2.0"/>
+      </geometry>
+      <origin xyz="0 0 1.0" rpy="0 0 0"/>
+      <material name="black"/>
+    </visual>
+    <collision>
+      <geometry>
+        <box size="0.05 0.05 2.0"/>
+      </geometry>
+      <origin xyz="0 0 1.0" rpy="0 0 0"/>
+    </collision>
+    <inertial>
+      <mass value="2.0"/>
+      <origin xyz="0 0 1.0" rpy="0 0 0"/>
+      <inertia ixx="0.67" ixy="0.0" ixz="0.0"
+               iyy="0.67" iyz="0.0"
+               izz="0.01"/>
+    </inertial>
+  </link>
+
+  <!-- Third joint: elbow pitch -->
+  <joint name="elbow_joint" type="continuous">
+    <parent link="arm1"/>
+    <child link="arm2"/>
+    <origin xyz="0 0 2.0" rpy="0 0 0"/>
+    <axis xyz="0 1 0"/>
+    <limit effort="100" velocity="1.0"/>
+    <dynamics damping="0.1" friction="0.1"/>
+  </joint>
+
+  <!-- Second arm link -->
+  <link name="arm2">
+    <visual>
+      <geometry>
+        <box size="0.05 0.05 1.5"/>
+      </geometry>
+      <origin xyz="0 0 0.75" rpy="0 0 0"/>
+      <material name="white"/>
+    </visual>
+    <collision>
+      <geometry>
+        <box size="0.05 0.05 1.5"/>
+      </geometry>
+      <origin xyz="0 0 0.75" rpy="0 0 0"/>
+    </collision>
+    <inertial>
+      <mass value="1.5"/>
+      <origin xyz="0 0 0.75" rpy="0 0 0"/>
+      <inertia ixx="0.28" ixy="0.0" ixz="0.0"
+               iyy="0.28" iyz="0.0"
+               izz="0.01"/>
+    </inertial>
+  </link>
+
+  <!-- End effector joint -->
+  <joint name="end_effector_joint" type="fixed">
+    <parent link="arm2"/>
+    <child link="end_effector"/>
+    <origin xyz="0 0 1.5" rpy="0 0 0"/>
+  </joint>
+
+  <!-- End effector link -->
+  <link name="end_effector">
+    <visual>
+      <geometry>
+        <sphere radius="0.05"/>
+      </geometry>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <material name="red"/>
+    </visual>
+    <collision>
+      <geometry>
+        <sphere radius="0.05"/>
+      </geometry>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+    </collision>
+    <inertial>
+      <mass value="0.1"/>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <inertia ixx="0.001" ixy="0.0" ixz="0.0"
+               iyy="0.001" iyz="0.0"
+               izz="0.001"/>
+    </inertial>
+  </link>
+
+</robot>
