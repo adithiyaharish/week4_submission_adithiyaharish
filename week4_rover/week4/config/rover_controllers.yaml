@@ -1,0 +1,87 @@
+controller_manager:
+  ros__parameters:
+    update_rate: 100  # Hz
+
+    # Use ForwardCommandController for individual joints
+    front_left_steering_controller:
+      type: forward_command_controller/ForwardCommandController
+    front_right_steering_controller:
+      type: forward_command_controller/ForwardCommandController
+    rear_left_steering_controller:
+      type: forward_command_controller/ForwardCommandController
+    rear_right_steering_controller:
+      type: forward_command_controller/ForwardCommandController
+
+    front_left_drive_controller:
+      type: forward_command_controller/ForwardCommandController
+    front_right_drive_controller:
+      type: forward_command_controller/ForwardCommandController
+    rear_left_drive_controller:
+      type: forward_command_controller/ForwardCommandController
+    rear_right_drive_controller:
+      type: forward_command_controller/ForwardCommandController
+
+    joint_state_broadcaster:
+      type: joint_state_broadcaster/JointStateBroadcaster
+
+# Individual controller configurations
+front_left_steering_controller:
+  ros__parameters:
+    joints:
+      - front_left_steering_joint
+    interface_name: position
+
+front_right_steering_controller:
+  ros__parameters:
+    joints:
+      - front_right_steering_joint
+    interface_name: position
+
+rear_left_steering_controller:
+  ros__parameters:
+    joints:
+      - rear_left_steering_joint
+    interface_name: position
+
+rear_right_steering_controller:
+  ros__parameters:
+    joints:
+      - rear_right_steering_joint
+    interface_name: position
+
+front_left_drive_controller:
+  ros__parameters:
+    joints:
+      - front_left_drive_joint
+    interface_name: velocity
+
+front_right_drive_controller:
+  ros__parameters:
+    joints:
+      - front_right_drive_joint
+    interface_name: velocity
+
+rear_left_drive_controller:
+  ros__parameters:
+    joints:
+      - rear_left_drive_joint
+    interface_name: velocity
+
+rear_right_drive_controller:
+  ros__parameters:
+    joints:
+      - rear_right_drive_joint
+    interface_name: velocity
+
+joint_state_broadcaster:
+  ros__parameters:
+    joints:
+      - front_left_steering_joint
+      - front_right_steering_joint
+      - rear_left_steering_joint
+      - rear_right_steering_joint
+      - front_left_drive_joint
+      - front_right_drive_joint
+      - rear_left_drive_joint
+      - rear_right_drive_joint
+
